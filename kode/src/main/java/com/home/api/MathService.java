@@ -6,7 +6,9 @@ package com.home.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -15,9 +17,76 @@ import java.util.List;
 public class MathService{
     
     public static void main(String args[]){
-        int n = 5;
+        //int n = 5;
         //System.out.println("n="+isPrime(n));
-        double x = Math.pow(n, n);
+        //double x = Math.pow(n, n);
+        callCheckForPair();
+    }
+    
+    private static void callCheckForPair(){
+        int[] arr = {1,3,4,6,8,9};
+        int val = 8;
+        boolean result = checkForPair(arr,val);
+        //System.out.println("Result ="+result);
+        result = checkForTriplet(arr,val);
+        System.out.println("Result ="+result);
+    }
+    
+    /**
+     * Given an array, find if 2 numbers in the array sum up to a value
+     * 
+     * Iterate the array
+     *  check if value-arr[i] is present in the set.
+     *  if not present, add arr[i] to the set
+     *  otherwise return true;
+     * 
+     */
+    
+    public static boolean checkForPair(int[] arr, int value){
+        boolean result = false;
+        Set<Integer> hs = new HashSet<>();
+        for(int ar : arr){
+            if(hs.contains(value-ar)){
+                return true;
+            }
+            else{
+                hs.add(ar);
+            }
+        }
+        
+        return result;
+    }
+    
+    
+    /***
+     * - Sort the array
+     * - for each elem, find 2 other elems, one pointing to the next 
+     * and the other pointing to the last.
+     * 
+     * 
+     */
+    public static boolean checkForTriplet(int[] arr, int value){
+        boolean result = false;
+        Arrays.sort(arr);
+        for (int i=0; i < arr.length-2; i++){
+            int first = arr[i];
+            int j = i+1;
+            int k = arr.length-1;
+            while(j<k){
+                int sum = arr[i]+arr[j]+arr[k];
+                if(sum < value){
+                    j++;
+                }
+                else if (sum > value){
+                    k--;
+                }
+                else{
+                    return true;
+                }
+            }
+        }
+        return result;
+        
     }
     
     public static int pow(int base, int exp){
