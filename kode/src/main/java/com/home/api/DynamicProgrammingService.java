@@ -112,7 +112,7 @@ public class DynamicProgrammingService {
      * It means s3 is made up of letters of s1 and s2 and the orders are preserved.
      * s1 = abc , s2 = def , and s3=adebfc is true.
      * let : 
-     * a[i][j] => true if s3[0 to i+j] can be formed by s1[0 to i] and s2[0 toj]
+     * a[i][j] => true if s3[0 to i+j] can be formed by s1[0 to i] and s2[0 to j]
      * s1 : 0 1 2 .... i
      * s2 : 0 1 2 .... j
      * s3 : 0 1 2 .......... i+j
@@ -162,11 +162,11 @@ public class DynamicProgrammingService {
      * 1) we consider S(i) : 
      *      if we consider s(i) , then its the value of w[i-1][j-1]. The reason is because if
      *      S(i) and T(j) are same chars, it does not increase the number of ways to form 
-     *      "distict" subsequence ( in S ) from the prevoius value which was formed 
+     *      "distinct" subsequence ( in S ) from the previous value which was formed 
      *      from S(0,i-1) and T(0,j-1).
      * 
-     * 2) we dont consider S(i) :
-     *      When we dont consider s(i), we take into account the number of distinct subsequences formed
+     * 2) we don't consider S(i) :
+     *      When we don't consider s(i), we take into account the number of distinct subsequences formed
      *      by taking s(0, i-1) and t(0,j) , which is w[i-1][j]
      * 
      * 

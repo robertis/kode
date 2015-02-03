@@ -22,18 +22,18 @@ public class Service {
         String result = bigStr;
         int len = bigStr.length();
         // store the chars of sub in a hashMap
-        Set<String> charMap = new HashSet<String>();
+        Set<String> smallMap = new HashSet<String>();
         HashMap<String,Integer> bigMap = new HashMap<>();
         for(int i = 0 ; i< sub.length(); i++){
-            charMap.add(sub.substring(i, i+1));
+            smallMap.add(sub.substring(i, i+1));
         }
         int i =0, j =0;
         
         while (j < len){
             // move j on the right until it covers all the elements in sub/charMap
-            while(bigMap.size() < charMap.size()){
+            while(bigMap.size() < smallMap.size()){
                 String theStr = bigStr.substring(j, j+1);
-                if(charMap.contains(theStr)){
+                if(smallMap.contains(theStr)){
                     if(bigMap.containsKey(theStr)) bigMap.put(theStr, bigMap.get(theStr)+1);
                     else bigMap.put(theStr, 1);
                 }
@@ -47,10 +47,10 @@ public class Service {
             
             // once the elements are covered. move i on the right,removing from bigMap 
             // until the elements are not covered again
-            while(bigMap.size()==charMap.size()){
+            while(bigMap.size()==smallMap.size()){
                 
                 String theStr = bigStr.substring(i, i+1);
-                if(charMap.contains(theStr)){
+                if(smallMap.contains(theStr)){
                     if(bigMap.containsKey(theStr)) {
                         int val = bigMap.get(theStr);
                         val--;
@@ -67,7 +67,7 @@ public class Service {
                 // find the next element which is in charmap
                 i++;
                 String nextStr = bigStr.substring(i, i+1);
-                while(!charMap.contains(nextStr)){
+                while(!smallMap.contains(nextStr)){
                     i++;
                     nextStr = bigStr.substring(i, i+1);
                 }

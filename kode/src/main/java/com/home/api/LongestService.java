@@ -92,26 +92,24 @@ public class LongestService {
                 else if(!stk.isEmpty()){
                     // stack is not empty, pop out one elem.
                     stk.pop();
-                    int nlen = 0;
+                    int currLen;
                     if(stk.isEmpty()){
                         // if after popping out, all elems are gone,
                         // find len by i-startIndex
-                        nlen = i-startIndex;       
+                        currLen = i-startIndex;       
                     }
                     else{
                         // if there are some elems, len is i-stack.top
                         // since we pushed the index when we got '('
-                        nlen = i-stk.peek();
+                        currLen = i-stk.peek();
                     }
-                    result = Math.max(nlen, result);
+                    result = Math.max(currLen, result);
                 }
             }
         }
         
-        
         // if")" , check if stack is not empty and stack.top is ")"
         
-       
         // if the stack is not empty, pop out an element 
         // after popping out, if the stack is empty len=curr-lastIndex+1
         // else len = curr-stack.top()
@@ -119,12 +117,12 @@ public class LongestService {
         return result;
     }
     
-    /*
+    /**
      * - create a prefix sum array prefix_sum[i] = arr[i]+prefix_sum[i-1]
      * - create a min_prefix_sum arr by :
      *      min_prefix_sum[i] = min(prefix_sum[i], min_prefix_sum[i+1])
      * 
-     * - set i =0, j=0 and compare min_prefix_sum[j]-prefix_sum[i] <=k
+     * - set i =0, j=0 and compare min_prefix_sum[j]-prefix_sum[i] < = k
      *  and keep incrementing j, otherwise increment i
      * - set result as len = max(len, j-i)
      * 
