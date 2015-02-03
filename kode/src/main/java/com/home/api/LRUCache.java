@@ -60,7 +60,7 @@ public class LRUCache{
     /*
      * *********************************************************************
      * Node class for the linked list
-     * inner class to represent a linked list
+     * inner class to represent a linked list node
      * *********************************************************************
      */
     
