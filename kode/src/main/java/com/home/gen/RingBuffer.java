@@ -42,10 +42,6 @@ public class RingBuffer<E> {
         end = (end+1)%capacity;
         currSize++;
         
-        if (end >= capacity) {
-            end = 0;
-        }
-        
     }
     
     
