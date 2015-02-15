@@ -20,7 +20,7 @@ public class MathService{
         //int n = 5;
         //System.out.println("n="+isPrime(n));
         //double x = Math.pow(n, n);
-        testReversetBits();
+        callFlipBits();
     }
     
     private static void testReversetBits(){
@@ -71,20 +71,32 @@ public class MathService{
     }
     
     private static void callFlipBits(){
-        int result = flipBits(2147483647);
         System.out.println("2147483647 =>"+flipBits(2147483647));
         System.out.println("1 =>"+flipBits(1));
         System.out.println("0 =>"+flipBits(0));
+        System.out.println("4294967295 =>"+flipBits(4294967295L));
     }
     
     /**
      * Flips all the bits of the incoming data
      *
      */
-    private static int flipBits(int data){
-        int result = data ^ 0xFFFFFFFF;
-        
-        return result;
+    private static long flipBits(long data){
+        if(data > 10000000000L){
+            return 0;
+        }
+        // convert to long,
+        // flip the bits,
+        // mask ( do an AND) with 00000000FFFFFFF
+        //if(data)
+        long val = data;
+        long flippedLong = val ^ 0xFFFFFFFFFFFFFFFFL;
+        long clippedLong = flippedLong & 0x00000000FFFFFFFFL; 
+        //int result = data ^ 0xFFFFFFFF;
+        System.out.println("flipped before = "+Long.toBinaryString(val));
+        System.out.println("flipped flipped = "+Long.toBinaryString(flippedLong));
+        System.out.println("flipped after = "+Long.toBinaryString(clippedLong));
+        return clippedLong;
     }
     /**
      * in the given array , all numbers appear twice except for one.
@@ -254,4 +266,6 @@ public class MathService{
         //System.out.println("55 ="+0x55);
         return result;
     }
+    
+    
 }
