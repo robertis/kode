@@ -6,6 +6,8 @@ package com.home.api;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -85,19 +87,10 @@ public class StringService {
         String[] tokens = input.split("/");
         
         for(String token : tokens){
-            if(token.equalsIgnoreCase("..")){
-                // if you come across "..", pop if stack is not empty
-                // otherwise ignore it
-                if(!stack.isEmpty()){
-                    stack.pop();
-                }
+            if(token.equalsIgnoreCase("..") && !stack.isEmpty()){
+                stack.pop();
             }
-            else if(token.equalsIgnoreCase(".")){
-                //ignore it
-            }
-            else if(token.equalsIgnoreCase("")){
-                //ignore it
-            }
+            
             else{
                 // char string
                 stack.push(token);
@@ -112,5 +105,92 @@ public class StringService {
         return result;
     }
     
+    /*
+     *********************************************************************
+     * Given a mapping : A->1, B-2, C->3... Z->26
+     * Find the number of ways a string representing a number can be decoded.
+     * Eg : 12 => AB or L, so the result for 12 as input, is 2.
+     * 
+     * Iterate the input string. 
+     * Number of ways at char i = num ways at i-1 (considering arr[i] separately)
+     *  + num ways at i-2 ( considering arr[i-1,i] as one encoding, if arr[i-1,i] 
+     * has a mapping.
+     * numWays[i] = numWays[i-1]+ (if arr[i-1,i] has a mapping) numWays[i-2]
+     * 
+     ***********************************************************************
+     */
+    public static int numDecodings(String input ){
+        
+        Map<String,String> mappings = getNumCharMappings();
+        int[] numWays = new int [input.length()];
+        if(input == null || input.isEmpty()){
+            return 0;
+        }
+        if(input.length()==1){
+            if(mappings.containsKey(input.substring(0))){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+                  
+        }
+        String firstChar = input.substring(0,1);
+        String secondChar = input.substring(1,2);
+        if(mappings.containsKey(firstChar)){
+            numWays[0]=1;
+        }
+        numWays[1]=0;
+        if(mappings.containsKey(secondChar)){
+            numWays[1]=numWays[0];
+        }
+        if (mappings.containsKey(input.substring(0, 2))) {
+            numWays[1]++;
+        }
+        for(int i = 2 ; i < input.length(); i++){
+            if(mappings.containsKey(input.substring(i, i+1))){
+                numWays[i]=numWays[i-1];
+            }
+            if(mappings.containsKey(input.substring(i-1,i+1))){
+                numWays[i]+=numWays[i-2];
+            }
+        }
+        
+        return numWays[input.length()-1];
+    }
+    
+    private static Map<String,String> getNumCharMappings (){
+        Map<String,String> numCharMappings = new HashMap<>();
+        
+        numCharMappings.put("1", "A");
+        numCharMappings.put("2", "B");
+        numCharMappings.put("3", "C");
+        numCharMappings.put("4", "D");
+        numCharMappings.put("5", "E");
+        numCharMappings.put("6", "F");
+        numCharMappings.put("7", "G");
+        numCharMappings.put("8", "H");
+        numCharMappings.put("9", "I");
+        numCharMappings.put("10", "J");
+        numCharMappings.put("11", "K");
+        numCharMappings.put("12", "L");
+        numCharMappings.put("13", "M");
+        numCharMappings.put("14", "N");
+        numCharMappings.put("15", "O");
+        numCharMappings.put("16", "P");
+        numCharMappings.put("17", "Q");
+        numCharMappings.put("18", "R");
+        numCharMappings.put("19", "S");
+        numCharMappings.put("20", "T");
+        numCharMappings.put("21", "U");
+        numCharMappings.put("22", "V");
+        numCharMappings.put("23", "W");
+        numCharMappings.put("24", "X");
+        numCharMappings.put("25", "Y");
+        numCharMappings.put("26", "Z");
+        
+             
+        return numCharMappings;
+    }
     
 }
