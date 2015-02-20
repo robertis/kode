@@ -15,12 +15,26 @@ public class PalindromeService {
 
     
     public static void main(String args[]){
-        String input =  "abadef";
+        String input =  "lirila";
+        System.out.println("is palindrome ="+isPalindrome(input));
         int result = 0;
         //result = minimumPalindromes(input);
         //System.out.println("Result 1 = "+result);
-        result = minimumPalindromesDyPr(input);
-        System.out.println("Result 2= "+result);
+        //result = minimumPalindromesDyPr(input);
+        //System.out.println("Result 2= "+result);
+    }
+    
+    public static boolean isPalindrome(String input){
+        int i =0;
+        int j = input.length()-1;
+        while(i<j){
+            if(input.charAt(i)!=input.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
     }
     //mp[i][j] containes the min palindrom decompostion for the substring(i,j+1)
     // we want to return mp[0][input.length()]
@@ -61,7 +75,10 @@ public class PalindromeService {
         
         return mp[0][len-1];
     }
-    
+    /****
+     * Retun the min number of palindromes formed by the string,
+     * in the worst case, its the length of the string.
+     ***/
     public static int minimumPalindromes(String input){
         int result =0;
         //List<String> result= new ArrayList<>();

@@ -12,6 +12,13 @@ import java.util.Deque;
  *
  * @author rtongbram
  */
+
+/*
+     ********************************************************************
+     * 
+     * 
+     * 
+     *********************************************************************/
 public class OneService {
     
     //Find the smallest number which cannot be constructed from the array.
@@ -31,6 +38,20 @@ public class OneService {
         return sum+1;
     }
     
+    /*
+     ********************************************************************
+     * 
+     * Set i=0 and j=1
+     * 
+     * if val[i][j] is false, i does not know j, which means 
+     * j cannot be considered but i is still a candidate. so increment j.
+     * 
+     * if val[i][j] is true, i knows j, so i cannot be a celebrity. 
+     * set i to j, and set j to j+1.
+     * 
+     * return i in the end.
+     * 
+     *********************************************************************/
     public static int findCelebrity(boolean[][] values){
         int result=-1;
         int i=0, j=1;
@@ -66,6 +87,15 @@ public class OneService {
         }
         
     }
+    
+    /*
+     ********************************************************************
+     * Scan the array / tokens
+     * if the token is not an operator, push in the stack
+     * if its an operator, pop 2 elements from the stack and calculate 
+     * the result and push the result in the stack.
+     * 
+     *********************************************************************/
     
     public static int evaluateRPN(String[] tokens){
         int result = 0;
@@ -112,9 +142,16 @@ public class OneService {
         return result;
     }
     
-    // convert base of input from base1 to base2
-    // in base10 , "234" = 234
-    // 10 => base 2 => 1010
+    
+    /*
+     ********************************************************************
+     * Calculate the value represented by the string based on b1
+     * Now convert the value to the string using b2, by using
+     * operators % and / to get the remainder and the quotient
+     * in base10 , "234" = 234
+     * 10 => base 2 => 1010
+     * 
+     *********************************************************************/
     public static String convertBase(String input, int base1, int base2){
         String result = "";
         boolean isNeg = false;

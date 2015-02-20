@@ -15,6 +15,59 @@ import java.util.Map;
  */
 public class StringService {
     
+    public static void main(String args[]){
+        String haystack = "ABABACABABABCABABABCABABACABABABC";
+        //haystack = "";
+        String needle = "ABABAC";
+        System.out.println("found ="+strStr(haystack,needle));
+    }
+    /****
+     * Find if needle is found in haystack
+     * 
+     * Brute force search
+     * 
+     ****/
+    public static String strStr(String haystack, String needle){
+        
+        if(haystack == null || haystack.isEmpty() || 
+                needle==null || needle.isEmpty() ||
+                needle.length() > haystack.length()){
+            return null;
+        }
+        
+        int h =0; 
+        while(h < haystack.length()){
+            int hst=h;
+            int ndl=0;
+            while(ndl<needle.length() && haystack.charAt(hst)==needle.charAt(ndl)){
+                hst++;
+                ndl++;
+            }
+            if(ndl==needle.length()){
+                return haystack.substring(h);
+            }
+            else{
+                h++;
+            }
+        }
+        
+        
+        return null;
+    }
+    
+    /*
+    private int[] kpmPrefix (String input){
+        int[] prefix = new int [input.length()];
+        
+        prefix[0]=0;
+        int k = 0;
+        for (int j = 1; j <input.length(); j++){
+            
+        }
+        
+        return prefix;
+    }
+    */
     
     // find regex matching for:
     // '.' : match any single character

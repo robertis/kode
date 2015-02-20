@@ -4,6 +4,7 @@
  */
 package com.home.threads;
 
+import com.home.gen.RingBufferBlocking;
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -11,6 +12,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
@@ -23,9 +26,17 @@ import java.util.logging.Logger;
 public class ConcurrentHandler {
     
     private static BlockingQueue queue = new ArrayBlockingQueue(1024);
+    private static RingBufferBlocking<Integer> buffer = new RingBufferBlocking(1024);
     public static void main(String args[]){
+        //testRecursiveTask();
         runQueue();
 
+    }
+    
+    private static void testRecursiveTask(){
+        FibonacciTask task = new FibonacciTask(6);
+        ForkJoinPool pool = new ForkJoinPool();
+        System.out.println("fib 5="+pool.invoke(task));
     }
     
     private static void testFutureTask(){
@@ -124,7 +135,8 @@ public class ConcurrentHandler {
             public String call() throws Exception {
                 for(int i =0; i< 10; i++){
                     System.out.println(".....producer...........inserting .. "+i*100);
-                    queue.put(i*100);
+                    //queue.put(i*100);
+                    buffer.enqueue(i*100);
                     Thread.sleep(1000);
                 }
                 return "producer all done";
@@ -135,7 +147,8 @@ public class ConcurrentHandler {
             public String call() throws Exception {
                 int sum=0;
                 for(int i =0; i< 10; i++){
-                    System.out.println(".....consumer...........found = "+queue.take());
+                    //System.out.println(".....consumer...........found = "+queue.take());
+                    System.out.println(".....consumer...........found = "+buffer.dequeue());
                     
                 }
                 return "consumer all done ";

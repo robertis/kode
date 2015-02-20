@@ -20,35 +20,41 @@ public class MathService{
         //int n = 5;
         //System.out.println("n="+isPrime(n));
         //double x = Math.pow(n, n);
-        callFlipBits();
-    }
-    
-    private static void testReversetBits(){
-        int input = 5;
+        //callFlipBits();
+        //testBinaryAddition();
+        int[] arr ={-6,1,2,3,5};
+        System.out.println(checkForTriplet(arr,0));
         
-        int output = reverseBits(input);
-        System.out.println(" input = "+Integer.toBinaryString(input));
-        System.out.println(" output = "+Integer.toBinaryString(output));
-        //System.out.println(" output 2= "+Integer.toBinaryString(Integer.reverse(input)));
-        long input1 = 15L;
-        long output1 = reverse64Bits(input1);
-        System.out.println(" long input  = "+Long.toBinaryString(input1));
-        System.out.println(" long output = "+Long.toBinaryString(output1));
-    }
-    private static void callUtopian(){
-        System.out.println("utopian at 4 ="+utopianTree(4));
-        System.out.println("utopian at 3 ="+utopianTree(3));
     }
     
-    private static void callCheckForPair(){
-        int[] arr = {1,3,4,6,8,9};
-        int val = 8;
-        boolean result = checkForPair(arr,val);
-        //System.out.println("Result ="+result);
-        result = checkForTriplet(arr,val);
-        System.out.println("Result ="+result);
-    }
     
+    /***/
+    public static String addBinaryString(String b1, String b2){
+        String result = "";
+        int i = b1.length()-1;
+        int j = b2.length()-1;
+        int sum = 0;
+        int carry = 0;
+        while(i>=0 || j>=0){
+            sum=carry;
+            if(i>=0){
+                sum+=Integer.parseInt(b1.substring(i,i+1));
+                i--;
+            }
+            if(j>=0){
+                sum+=Integer.parseInt(b2.substring(j,j+1));
+                j--;
+            }
+            carry = sum/2;
+            result = sum%2+result;
+        }
+        
+        if(carry>0){
+            result = carry+result;
+        }
+        
+        return result;
+    }
     
     /**
      * a tree of height 1 is given
@@ -159,6 +165,7 @@ public class MathService{
                     k--;
                 }
                 else{
+                    System.out.println("i="+i+" .. j="+j+"  .. k="+k);
                     return true;
                 }
             }
@@ -167,8 +174,8 @@ public class MathService{
         
     }
     
-    public static int pow(int base, int exp){
-        int result=1;
+    public static double pow(int base, int exp){
+        double result=1;
         
         while(exp!=0){
             if((exp & 1) == 1){
@@ -267,5 +274,15 @@ public class MathService{
         return result;
     }
     
+    public static double squareRoot(double n){
+        if(n<1) return n;
+        double result = 0;
+        double last = 1;
+        while(result != last){
+            result = last;
+            last = (result+(n/result))/2;
+        }
+        return result;
+    }
     
 }

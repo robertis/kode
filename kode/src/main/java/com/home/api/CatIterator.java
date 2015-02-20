@@ -16,14 +16,8 @@ public class CatIterator<T> implements Iterator<T>{
     private Iterator<T> currentItr;
     private Iterator<Iterator<T>> allIters;
     public CatIterator(List<Iterator<T>> itersList){
-        //Iterator<Iterator<T>> iter = itersList.iterator();
         allIters = itersList.iterator();
         currentItr = Collections.<T>emptyList().iterator();
-        /*
-        if(iter.hasNext()){
-            currentItr = iter.next();
-        }
-        */
     }
     
     @Override
@@ -32,20 +26,6 @@ public class CatIterator<T> implements Iterator<T>{
         while(!currentItr.hasNext() && allIters.hasNext()){
             currentItr = allIters.next();
         }
-        /*
-        if(currentItr.hasNext()) {
-            return true;
-        }
-        else{
-            while(allIters.hasNext()){
-                currentItr = allIters.next();
-                if(currentItr.hasNext()){
-                    return true;
-                }
-            }
-        }
-        return false;
-        */
         return currentItr.hasNext();
         
     }

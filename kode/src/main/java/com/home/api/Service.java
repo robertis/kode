@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -257,6 +259,39 @@ public class Service {
             }
         }
         return result;
+    }
+    
+    
+    
+    
+    public static boolean timedOut(Map<String,String> values){
+    
+        Date today = new Date();
+        return false;
+    }
+    
+    
+    
+    
+    
+    
+    /*********
+     * return the longest timeout
+     ******/
+    
+    public static int getTimeouts(int[] values){
+        
+    
+        int result = 0;
+    
+    
+    
+    
+        return result;
+    
+    
+    
+    
     }
     
 }

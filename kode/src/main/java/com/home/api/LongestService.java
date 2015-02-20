@@ -89,7 +89,8 @@ public class LongestService {
                     // it means we are starting a new string all over.
                     startIndex = i;
                 }
-                else if(!stk.isEmpty()){
+                else if(!stk.isEmpty())
+                {
                     // stack is not empty, pop out one elem.
                     stk.pop();
                     int currLen;

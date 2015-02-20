@@ -82,6 +82,10 @@ public class LRUCache{
      * The oldest node ( least recently used) is at the tail
      * The most recently accessed or inserted node is 
      * at the head.
+     * 
+     * Doubly linked list is needed because we will need to remove nodes
+     * from the list , anywhere in the list, we need to have a pointer to 
+     * the previous node.
      * ********************************************************************
      */
     private class LinkedList{
@@ -132,6 +136,11 @@ public class LRUCache{
             insertNode(node);
         }
         
+        /*************************************************************
+         * the oldest node is always at the tail
+         * when we remove the tail node, the oldest node is evicted.
+         * 
+         *************************************************************/
         public Node removeTail(){
             Node oldestNode = tail;
             if(tail!=null && tail==head){

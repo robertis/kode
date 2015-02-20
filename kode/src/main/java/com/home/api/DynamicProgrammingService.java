@@ -10,7 +10,76 @@ package com.home.api;
  */
 public class DynamicProgrammingService {
     
-    /**
+    
+    public static void main(String args[]){
+        testLongestPalind();
+    }
+    
+    private static void testLongestPalind(){
+        //String input = "lriliril";
+        String input = "liriliraaaaabbbaa";
+        System.out.println("len ="+getLongestPalindromeSubsequence(input));
+        //getLongestPalindromeSubsequence
+    }
+    /*********************************************************************
+     * 
+     * find the length of the longest palindrome subsequence
+     * 
+     * Let w[i][j] represent the length of the longest palindrome in the 
+     * substring from index i to j.
+     * Run the algorithm in 3 steps :
+     * 1. Get longest palindrome lengths of 1-char words
+     * 2. Get longest palindrome lengths of 2-char words
+     * 3. From l=3 to length of the input string, find if there's any other
+     *     bigger palindrome using the array.
+     * 
+     * 
+     *********************************************************************/
+    
+    public static int getLongestPalindromeSubsequence(String input){
+       
+       boolean[][] w = new boolean[input.length()][input.length()];
+       int longest = 0;
+       int start = 0;
+       //find 1-char palindromes
+       for(int i=0; i < input.length(); i++){
+           w[i][i]=true;
+           longest = 1;
+           start = i;
+           
+       }   
+       
+       //find 2-char palindromes
+       for(int i=0; i < input.length()-1; i++){
+           if(input.charAt(i)==input.charAt(i+1)){
+               w[i][i+1]=true;
+               longest = 2;
+               start = i;
+           }   
+       }   
+
+       //find palindromes for 3-char onwards
+       for(int l=3; l <= input.length(); l++){
+           for(int i = 0 ; i < input.length()-l+1; i++){
+               int j = i+l-1;
+               if((input.charAt(i) == input.charAt(j)) && (w[i+1][j-1]))   {
+                   w[i][j]= true;
+                   if(l>longest){
+                       start = i;
+                       longest = l;
+                   }
+                   
+               }
+               
+           }
+       }
+       System.out.println(input.substring(start, start+longest));
+       return longest;
+    }   
+    
+    
+    /*
+     *********************************************************************************************
      * Find the number of ways we can make the change of 
      * the amount value, using the coin denominations given as coins.
      * You have a large amount of each of the coins, and we can include a coin , or not to
@@ -28,7 +97,7 @@ public class DynamicProgrammingService {
      * 
      * And then finally we can return c(value, coins.length).
      * 
-     * 
+     * **********************************************************************************************
      */
     public static int numWaysCoinChange(int value, int[] coins){
         int[][] table = new int[value+1][coins.length];
@@ -42,17 +111,15 @@ public class DynamicProgrammingService {
             table[0][j]=1;
         }
         
-        for (int i =1; i <= value; i++){
-            for (int j=1;j<coins.length;j++){
-                
-                    int dontConsider = table[i][j-1];
-                    int consider = 0;
-                    if(i >= coins[j]){
-                        consider=table[i-coins[j]][j];
-                    }
-                    table[i][j]= dontConsider+consider;
-                
-                
+        for (int i = 1; i <= value; i++) {
+            for (int j = 1; j < coins.length; j++) {
+
+                int dontConsider = table[i][j - 1];
+                int consider = 0;
+                if (i >= coins[j]) {
+                    consider = table[i - coins[j]][j];
+                }
+                table[i][j] = dontConsider + consider;
             }
         }
         
@@ -62,7 +129,8 @@ public class DynamicProgrammingService {
     
     
     /**
-     * Find the minimun number of coins which can make value
+     * *********************************************************************************************
+     * Find the minimum number of coins which can make value
      * Let c(i,j) => minimum number of coins to sum up to i using j denominations
      * then, 
      *  c(i,j) = min ( c(i,j-1), c(i-coins[j],j)+1)
@@ -72,6 +140,7 @@ public class DynamicProgrammingService {
      *  2) we consider the coin j : c(i-coins[j],j) +1 .  Here we add a 1 because since we are considering the
      * coin j, we have to increment the number of coins by 1.
      *
+     * *********************************************************************************************
      */
     public static int minCoinChange(int value, int[] coins){
         int[][] table = new int[value+1][coins.length];
@@ -85,20 +154,15 @@ public class DynamicProgrammingService {
             table[0][j]=1;
         }
         
-        for (int i =1; i <= value; i++){
-            for (int j=1;j<coins.length;j++){
-                
-                    int dontConsider = table[i][j-1];
-                    int consider = 0;
-                    if(i >= coins[j]){
-                        consider=table[i-coins[j]][j];
-                        table[i][j]= Math.min(dontConsider,consider+1);
-                        
-                    }
-                    
-                    
-                
-                
+        for (int i = 1; i <= value; i++) {
+            for (int j = 1; j < coins.length; j++) {
+
+                int dontConsider = table[i][j - 1];
+                int consider = 0;
+                if (i >= coins[j]) {
+                    consider = table[i - coins[j]][j];
+                    table[i][j] = Math.min(dontConsider, consider + 1);
+                }
             }
         }
         
@@ -108,7 +172,9 @@ public class DynamicProgrammingService {
     
     
     /**
-     * Returns true if string s3 is an interleaving of string s1 and s2. 
+     * *********************************************************************************************
+     * Returns true if string s3 is an interleaving of string s1 and s2.
+     * 
      * It means s3 is made up of letters of s1 and s2 and the orders are preserved.
      * s1 = abc , s2 = def , and s3=adebfc is true.
      * let : 
@@ -116,7 +182,7 @@ public class DynamicProgrammingService {
      * s1 : 0 1 2 .... i
      * s2 : 0 1 2 .... j
      * s3 : 0 1 2 .......... i+j
-     * a[i][j]=(s3[i+j]==s1[i] && a[i-1][j]) ||  (s3[i+j]== s2[j] && a[i][j-1])
+     * a[i][j]= (s3[i+j]==s1[i] && a[i-1][j]) ||  (s3[i+j]== s2[j] && a[i][j-1])
      * There are 2 conditions for a[i][j] to be true. 
      * 1) if the last char of s3 which is s3[i+j] is equal to the last char or s1  which is s1[i]
      *      then we are considering the last char of s3 to be the last char of s1
@@ -130,35 +196,39 @@ public class DynamicProgrammingService {
      *      forms an interleaving string. 
      *      Or, a[i][j-1] needs to be true.
      * 
+     * *********************************************************************************************
      */
-    public static boolean isInterleaving(String s1, String s2, String s3){
-        
-        boolean [][] a = new boolean[s1.length()+1][s2.length()+1];
-        
-        a[0][0]= true;
-        a[1][0]= (s3.charAt(0)==s1.charAt(0));
-        a[0][1]= (s3.charAt(0)==s2.charAt(0));
-        for(int i =1; i< s1.length()+1; i++){
-            for (int j = 1; j< s2.length()+1; j++){
-                a[i][j]=(s3.charAt(i+j-1)==s1.charAt(i-1) && a[i-1][j]) 
-                        ||  (s3.charAt(i+j-1)== s2.charAt(j-1) && a[i][j-1]);
+    public static boolean isInterleaving(String s1, String s2, String s3) {
+
+        boolean[][] a = new boolean[s1.length() + 1][s2.length() + 1];
+
+        a[0][0] = true;
+        a[1][0] = (s3.charAt(0) == s1.charAt(0));
+        a[0][1] = (s3.charAt(0) == s2.charAt(0));
+        for (int i = 1; i < s1.length() + 1; i++) {
+            for (int j = 1; j < s2.length() + 1; j++) {
+                a[i][j] = (s3.charAt(i + j - 1) == s1.charAt(i - 1) && a[i - 1][j])
+                        || (s3.charAt(i + j - 1) == s2.charAt(j - 1) && a[i][j - 1]);
             }
         }
-        
+
         return a[s1.length()][s2.length()];
     }
     
     
     /**
+     * *********************************************************************************************
      * Given strings S and T , return the number of distinct subsequences of T in S.
      *  
-     * S = "rabbbit" , T = "rabbit" , return 3
+     * S = "rabbbit" , T = "rabbit" , return 3, we can consider one of the 3 b's in between 
+     * that will make 3 combinations.
      * 
      * Let w[i][j] => number of distinct subsequences formed by S(0,i) and T(0,j)
      * w[i][j] = w[i-1][j-1]+w[i-1][j] if S[i]==T[j]
      *           w[i-1][j] otherwise.
      * 
-     * So, when we consider i in S and j in T, if S(i) and T(j) are similar, we have 2 options:
+     * we scan the string T against each substring of S.
+     * So, when we consider i in S and j in T, if S(i) and T(j) are equal, we have 2 options:
      * 1) we consider S(i) : 
      *      if we consider s(i) , then its the value of w[i-1][j-1]. The reason is because if
      *      S(i) and T(j) are same chars, it does not increase the number of ways to form 
@@ -187,6 +257,8 @@ public class DynamicProgrammingService {
      *    t 0  0 0 1 2 2 4
      *    | 
      *    T
+     * 
+     * *********************************************************************************************
      */
     public static int distinctSubsequences(String s, String t){
         
@@ -215,13 +287,14 @@ public class DynamicProgrammingService {
     }
     
     /**
-     * Given an array , find the mimimum difference between 2 partitions.
+     * *********************************************************************************************
+     * Given an array , find the minimum difference between 2 partitions.
      * 
      * Let p[i][j] => true if there is a subset in values[0 to j] which sums up to i
      * 
      * so , p[i][j]= p[i][j-1] || p[i-Vj][j-1]   //{ Vj = values[j] }
      * 
-     * p[i][j-1] => condition where we dont consider Vj, if there's already a subset in the 
+     * p[i][j-1] => condition where we don't consider values[j], if there's already a subset in the 
      *              array ( 0 to j-1), then p[i][j] is also true
      * 
      * p[i-Vj][j-1] => condition where we considered Vj, we want to make sure we have a subset in 

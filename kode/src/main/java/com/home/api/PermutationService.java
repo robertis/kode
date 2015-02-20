@@ -5,6 +5,7 @@
 package com.home.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,16 @@ import java.util.Map;
  */
 public class PermutationService {
     
+    
+    public static void main(String args[]){
+        int[] values = {1,2,3,4,5,6};
+        subsetSum2(values, 6);
+        subsetSum(values, 6);
+        //int[] vals = {1,2,3};
+        //subsetAll(vals);
+        //List<String> result = getSubsets("abcd");
+        //System.out.println(result);
+    }
     //given a string of numbers, return all the possible outcomes of combinatons of strings
     /*
      * Mappings :
@@ -75,6 +86,108 @@ public class PermutationService {
         }
     }
     
+    
+    public static void subsetSum(int[] values, int target){
+        List<Integer> valueList = new ArrayList<>();
+        for(int value : values){
+            valueList.add(value);
+        }
+        List<Integer> soFar = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        subsetSumRec(soFar, valueList, target, 0, result);
+        
+        for(List<Integer> list : result){
+            System.out.println("list = "+list);
+        }
+    }
+    
+    public static void subsetSumRec(List<Integer> soFar, List<Integer> rest, 
+            int target, int index, List<List<Integer>> result){
+        if(target==0){
+            result.add(soFar);
+            return;
+        }
+        else{
+            for(int i = index ; i < rest.size(); i++){
+                List<Integer> soFarTmp = new ArrayList<>(soFar);
+                soFarTmp.add(rest.get(i));
+                List<Integer> restTmp = new ArrayList<>(rest);
+                restTmp.remove(i);
+                subsetSumRec(soFarTmp,restTmp,target-rest.get(i), i, result);
+            }
+            
+            
+        }
+    }
+    
+    public static void subsetSum2(int[] values, int target){
+        List<Integer> valueList = new ArrayList<>();
+        for(int value : values){
+            valueList.add(value);
+        }
+        List<Integer> soFar = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        subsetSumRec2(soFar, valueList, target, result);
+        
+        for(List<Integer> list : result){
+            System.out.println("list 2 = "+list);
+        }
+    }
+    
+    public static void subsetSumRec2(List<Integer> soFar, List<Integer> rest, 
+            int target,  List<List<Integer>> result){
+        if(rest.isEmpty()){
+            if(target==0){
+                result.add(soFar);
+            }
+            
+            return;
+        }
+        else{
+            List<Integer> soFarTmp = new ArrayList<>(soFar);
+            soFarTmp.add(rest.get(0));
+            List<Integer> restTmp = new ArrayList<>(rest);
+            restTmp.remove(0);
+            subsetSumRec2(soFarTmp, restTmp, target - rest.get(0), result);
+            subsetSumRec2(soFar, restTmp, target, result);
+        }
+    }
+    
+    
+    
+    public static void subsetAll(int[] values){
+        List<Integer> valueList = new ArrayList<>();
+        for(int value : values){
+            valueList.add(value);
+        }
+        List<Integer> soFar = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        subsetAllRec(soFar, valueList, result);
+        
+        for(List<Integer> list : result){
+            System.out.println("list = "+list);
+        }
+    }
+    
+    public static void subsetAllRec(List<Integer> soFar, List<Integer> rest, 
+              List<List<Integer>> result){
+        if(rest.isEmpty()){
+            
+            if(!soFar.isEmpty()){
+                result.add(soFar);
+            }
+            
+            return;
+        }
+        else{
+            List<Integer> soFarTmp = new ArrayList<>(soFar);
+            soFarTmp.add(rest.get(0));
+            List<Integer> restTmp = new ArrayList<>(rest);
+            restTmp.remove(0);
+            subsetAllRec(soFar, restTmp, result);
+            subsetAllRec(soFarTmp, restTmp, result);
+        }
+    }
     
     public static List<String> getSubsets(String input){
         List<String> result = new ArrayList<>();

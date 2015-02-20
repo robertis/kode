@@ -32,6 +32,7 @@ class Line {
     double intercept;
     private boolean infiniteSlope = false;
 
+    // slope = (y2-y1)/(x2-x1)
     Line(Point p1, Point p2) {
         if (Math.abs(p2.x - p1.x) < this.epsilon) {
             // if the line is vertical , the infinite slope is true.
